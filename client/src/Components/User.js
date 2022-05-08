@@ -1,10 +1,15 @@
 import { useQuery } from '@apollo/client';
 
 import React from 'react';
-import { QUERY_ALL_USERS } from './Queries/UserQuery';
+import { QUERY_ALL_USERS } from '../Queries/UserQuery';
 
-const DisplaysData = () => {
+const UserData = () => {
   const { data, loading, error } = useQuery(QUERY_ALL_USERS);
+  // const {
+  //   data: movieData,
+  //   loading: movieLoading,
+  //   error: movieError,
+  // } = useQuery(QUERY_ALL_MOVIES);
 
   if (error) {
     console.log(error);
@@ -34,4 +39,4 @@ const DisplaysData = () => {
   );
 };
 
-export default DisplaysData;
+export default UserData;

@@ -1,13 +1,8 @@
 import logo from './logo.svg';
-import DisplayData from './DisplayData';
-import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-  useQuery,
-} from '@apollo/client';
+import { ApolloClient, InMemoryCache, ApolloProvider } from '@apollo/client';
 import './App.css';
-
+import UserData from './Components/User';
+import Movie from './Components/Movie';
 function App() {
   const client = new ApolloClient({
     cache: new InMemoryCache(),
@@ -16,7 +11,8 @@ function App() {
   return (
     <ApolloProvider client={client}>
       <div className='App'>
-        <DisplayData />
+        <UserData />
+        <Movie />
       </div>
     </ApolloProvider>
   );
