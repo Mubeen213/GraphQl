@@ -28,6 +28,27 @@ const resolvers = {
       return _.filter(MoviesList, (movie) => movie.yearOfPublication >= 2000);
     },
   },
+
+  Mutation: {
+    createUser: (parent, args) => {
+      const user = args.input;
+      console.log(user);
+      const lastId = UserList[UserList.length - 1].id;
+      user.id = lastId + 1;
+      UserList.push(user);
+    },
+    updateUserName: (parent, args) => {
+      const { id, newUserName } = args.input;
+      let userUpdated;
+      UserList.forEach((user) => {
+        if (user.id === Number(id)) {
+          user.username = newUserName;
+          userUpdated = user;
+        }
+      });
+      return userUpdated;
+    },
+  },
 };
 
 module.exports = { resolvers };
