@@ -1,15 +1,15 @@
-import { useQuery } from '@apollo/client';
+import { useMutation, useQuery } from '@apollo/client';
 
-import React from 'react';
-import { QUERY_ALL_USERS } from '../Queries/UserQuery';
+import React, { useState } from 'react';
+import { CREATE_USER, QUERY_ALL_USERS } from '../Queries/UserQuery';
 
 const UserData = () => {
-  const { data, loading, error } = useQuery(QUERY_ALL_USERS);
-  // const {
-  //   data: movieData,
-  //   loading: movieLoading,
-  //   error: movieError,
-  // } = useQuery(QUERY_ALL_MOVIES);
+  const { data, loading, error, refetch } = useQuery(QUERY_ALL_USERS);
+  const [createUser] = useMutation(CREATE_USER);
+  const [name, setName] = useState('');
+  const [age, setAge] = useState(0);
+  const [username, setUsername] = useState('');
+  const [nationality, setNationality] = useState('');
 
   if (error) {
     console.log(error);
@@ -30,12 +30,53 @@ const UserData = () => {
   };
 
   return (
-    <div>
-      {data?.users &&
-        data.users.map((user) => {
-          return <User key={user.id} {...user} />;
-        })}
-    </div>
+    <>
+      <div className='create-user'>
+        <input
+          type='text'
+          placeholder='name..'
+          onChange={(e) => setName(e.target.value)}
+        />
+        <input
+          type='text'
+          placeholder='username..'
+          onChange={(e) => setUsername(e.target.value)}
+        />
+        <input
+          type='number'
+          placeholder='Age..'
+          onChange={(e) => setAge(Number(e.target.value))}
+        />
+        <input
+          type='text'
+          placeholder='Nationality..'
+          onChange={(e) => setNationality(e.target.value.toUpperCase())}
+        />
+        <button
+          onClick={() => {
+            createUser({
+              variables: {
+                input: {
+                  name,
+                  username,
+                  age,
+                  nationality,
+                },
+              },
+            });
+            refetch();
+          }}
+        >
+          Create user
+        </button>
+      </div>
+      <div>
+        {data?.users &&
+          data.users.map((user) => {
+            return <User key={user.id} {...user} />;
+          })}
+      </div>
+    </>
   );
 };
 
